@@ -1,0 +1,43 @@
+<template>
+    <lightning-card title="Create New Project" icon-name="standard:task">
+        <div class="slds-p-around_medium">
+            <lightning-input required="true" label="Project Name" value={projectName} onchange={handleProjectName}></lightning-input>
+
+            <template for:each={milestones} for:item="milestone" for:index="milestoneIndex">
+                <div key={milestone.name} class="slds-box slds-m-top_medium">
+                    <lightning-input label="Milestone Name" required="true" name="name" value={milestone.name} data-mid={milestoneIndex} onchange={handlemileChange}></lightning-input>
+                    <lightning-input type="date" label="Milestone Due Date" value={milestone.dueDate} name="dueDate" data-mid={milestoneIndex} onchange={handlemileChange} ></lightning-input>
+
+                    <template for:each={milestone.todos} for:item="todo" for:index="todoIndex">
+                        <div key={milestone.todos.name} class="slds-p-left_medium slds-border_top slds-m-top_small">
+                            <lightning-input label="To-Do Name" required="true" value={todo.name} data-mid={milestoneIndex} data-tid={todoIndex} onchange={handleToDoChange}></lightning-input>
+                            <lightning-input type="date" label="To-Do Due Date" value={todo.dueDate} data-mid={milestoneIndex} data-tid={todoIndex} onchange={handleToDoChange}></lightning-input>
+                            <lightning-combobox
+                                label="Status"
+                                value={todo.status}
+                                data-mid={milestoneIndex}
+                                data-tid={todoIndex}
+                                options={statusOptions}
+                                onchange={handleToDoChange}>
+                            </lightning-combobox>
+                        </div>
+                    </template>
+
+                    <div class="slds-p-top_small">
+                        <lightning-button variant="brand-outline" label="Create To Do Items" class="slds-m-top_small" data-index={milestoneIndex} onclick={createToDo}></lightning-button>
+                    </div>
+                </div>
+            </template>
+
+            <div class="slds-p-top_small">
+                <lightning-button variant="brand-outline" label="Create Milestone" class="slds-m-right_small" onclick={createMilestone}></lightning-button>
+                <lightning-button variant="brand" label="Save Project" class=" slds-m-right_small" onclick={saveProject}></lightning-button>
+                <lightning-button variant="brand-outline" label="Reset" onclick={resetpage}></lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+
+    <template if:true={projectId}>
+        <c-projoverview project-id={projectId} project-name={projectName}></c-projoverview>
+    </template>
+</template>
