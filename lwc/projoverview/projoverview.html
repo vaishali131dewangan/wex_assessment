@@ -1,0 +1,24 @@
+<template>
+    <template if:true={milestones}>
+        <lightning-card title="Project Overview" icon-name="standard:task">
+            <div class="slds-p-around_medium">
+                <h2><strong>Project:</strong> {projectName}  </h2>
+            </div>
+            <template for:each={milestones} for:item="milestone">
+                <div key={milestone.name} class="slds-box slds-m-bottom_small">
+                    <h3><strong>Milestone:</strong> {milestone.name} (Due: {milestone.dueDate})</h3>
+                    <ul class="slds-list_dotted slds-p-left_medium">
+                        <template for:each={milestone.todos} for:item="todo">
+                            <li key={todo.name}>
+                                <strong>{todo.name}</strong> - {todo.status} (Due: {todo.dueDate})
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </template>
+        </lightning-card>
+    </template>
+    <template if:true={error}>
+        <p class="slds-text-color_error">Error loading overview: {error}</p>
+    </template>
+</template>
